@@ -1,0 +1,9 @@
+/dist
+/.eggs
+/nnp.egg-info
+/.mypy_cache
+/.vscode
+/build
+/docs/examples
+/docs/code
+*.pyc
