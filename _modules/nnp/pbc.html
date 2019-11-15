@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nnp.pbc &mdash; NNP 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> NNP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#vibrational-analysis">Vibrational Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/vib.html">Vibrational Analysis</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NNP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nnp.pbc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nnp.pbc</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Periodic Boundary Conditions</span>
+<span class="sd">============================</span>
+
+<span class="sd">This file contains</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
+
+
+<div class="viewcode-block" id="map2central"><a class="viewcode-back" href="../../api.html#nnp.pbc.map2central">[docs]</a><span class="k">def</span> <span class="nf">map2central</span><span class="p">(</span><span class="n">cell</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pbc</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Map atoms outside the unit cell into the cell using PBC.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        cell (:class:`torch.Tensor`): tensor of shape (3, 3) of the three</span>
+<span class="sd">            vectors defining unit cell:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                tensor([[x1, y1, z1],</span>
+<span class="sd">                        [x2, y2, z2],</span>
+<span class="sd">                        [x3, y3, z3]])</span>
+
+<span class="sd">        coordinates (:class:`torch.Tensor`): Tensor of shape ``(atoms, 3)``</span>
+<span class="sd">            or ``(molecules, atoms, 3)``.</span>
+<span class="sd">        pbc (:class:`torch.Tensor`): boolean vector of size 3 storing</span>
+<span class="sd">            if pbc is enabled for that direction.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        :class:`torch.Tensor`: coordinates of atoms mapped back to unit cell.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Step 1: convert coordinates from standard cartesian coordinate to unit</span>
+    <span class="c1"># cell coordinates</span>
+    <span class="n">inv_cell</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+    <span class="n">coordinates_cell</span> <span class="o">=</span> <span class="n">coordinates</span> <span class="o">@</span> <span class="n">inv_cell</span>
+    <span class="c1"># Step 2: wrap cell coordinates into [0, 1)</span>
+    <span class="n">coordinates_cell</span> <span class="o">-=</span> <span class="n">coordinates_cell</span><span class="o">.</span><span class="n">floor</span><span class="p">()</span> <span class="o">*</span> <span class="n">pbc</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">coordinates_cell</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="c1"># Step 3: convert from cell coordinates back to standard cartesian</span>
+    <span class="c1"># coordinate</span>
+    <span class="k">return</span> <span class="n">coordinates_cell</span> <span class="o">@</span> <span class="n">cell</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xiang Gao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

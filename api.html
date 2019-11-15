@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Periodic Boundary Conditions &mdash; NNP 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="code/index.html" />
+    <link rel="prev" title="Use ASE to Simulate Planetary Motion" href="examples/planetary_motion.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> NNP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#vibrational-analysis">Vibrational Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/vib.html">Vibrational Analysis</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NNP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Periodic Boundary Conditions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-nnp.pbc"></span><div class="section" id="periodic-boundary-conditions">
+<h1>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Permalink to this headline">¶</a></h1>
+<p>This file contains</p>
+<dl class="function">
+<dt id="nnp.pbc.map2central">
+<code class="descclassname">nnp.pbc.</code><code class="descname">map2central</code><span class="sig-paren">(</span><em>cell: torch.Tensor</em>, <em>coordinates: torch.Tensor</em>, <em>pbc: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/nnp/pbc.html#map2central"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.pbc.map2central" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map atoms outside the unit cell into the cell using PBC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cell</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – <p>tensor of shape (3, 3) of the three
+vectors defining unit cell:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tensor</span><span class="p">([[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">]])</span>
+</pre></div>
+</div>
+</li>
+<li><strong>coordinates</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code>
+or <code class="docutils literal notranslate"><span class="pre">(molecules,</span> <span class="pre">atoms,</span> <span class="pre">3)</span></code>.</li>
+<li><strong>pbc</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – boolean vector of size 3 storing
+if pbc is enabled for that direction.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">coordinates of atoms mapped back to unit cell.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<span class="target" id="module-nnp.md"></span><div class="section" id="molecular-dynamics">
+<h1>Molecular Dynamics<a class="headerlink" href="#molecular-dynamics" title="Permalink to this headline">¶</a></h1>
+<p>The module <cite>nnp.md</cite> provide tools to run molecular dynamics with a potential
+defined by PyTorch.</p>
+<dl class="class">
+<dt id="nnp.md.Calculator">
+<em class="property">class </em><code class="descclassname">nnp.md.</code><code class="descname">Calculator</code><span class="sig-paren">(</span><em>func: Callable[[Sequence[str], torch.Tensor, torch.Tensor, torch.Tensor], torch.Tensor], overwrite: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nnp/md.html#Calculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.md.Calculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>ASE Calculator that wraps a neural network potential</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>func</strong> (<em>callable</em>) – A fucntion that .</li>
+<li><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – After wrapping atoms into central box, whether
+to replace the original positions stored in <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms" title="(in ASE)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ase.Atoms</span></code></a>
+object with the wrapped positions.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nnp.md.Calculator.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><em>atoms=None, properties=['energy'], system_changes=['positions', 'numbers', 'cell', 'pbc', 'initial_charges', 'initial_magmoms']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nnp/md.html#Calculator.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.md.Calculator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the calculation.</p>
+<dl class="docutils">
+<dt>properties: list of str</dt><dd>List of what needs to be calculated.  Can be any combination
+of ‘energy’, ‘forces’, ‘stress’, ‘dipole’, ‘charges’, ‘magmom’
+and ‘magmoms’.</dd>
+<dt>system_changes: list of str</dt><dd>List of what has changed since last calculation.  Can be
+any combination of these six: ‘positions’, ‘numbers’, ‘cell’,
+‘pbc’, ‘initial_charges’ and ‘initial_magmoms’.</dd>
+</dl>
+<p>Subclasses need to implement this, but can ignore properties
+and system_changes if they want.  Calculated properties should
+be inserted into results dictionary like shown in this dummy
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="s1">&#39;forces&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">),</span> <span class="mi">3</span><span class="p">)),</span>
+                <span class="s1">&#39;stress&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span>
+                <span class="s1">&#39;dipole&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+                <span class="s1">&#39;charges&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)),</span>
+                <span class="s1">&#39;magmom&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="s1">&#39;magmoms&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">))}</span>
+</pre></div>
+</div>
+<p>The subclass implementation should first call this
+implementation to set the atoms attribute.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-nnp.vib"></span><div class="section" id="vibrational-analysis">
+<h1>Vibrational Analysis<a class="headerlink" href="#vibrational-analysis" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nnp.vib.FreqsModes">
+<em class="property">class </em><code class="descclassname">nnp.vib.</code><code class="descname">FreqsModes</code><span class="sig-paren">(</span><em>freqs</em>, <em>modes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nnp/vib.html#FreqsModes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.vib.FreqsModes" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="nnp.vib.FreqsModes.freqs">
+<em class="property">property </em><code class="descname">freqs</code><a class="headerlink" href="#nnp.vib.FreqsModes.freqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nnp.vib.FreqsModes.modes">
+<em class="property">property </em><code class="descname">modes</code><a class="headerlink" href="#nnp.vib.FreqsModes.modes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nnp.vib.hessian">
+<code class="descclassname">nnp.vib.</code><code class="descname">hessian</code><span class="sig-paren">(</span><em>coordinates: torch.Tensor</em>, <em>energies: Optional[torch.Tensor] = None</em>, <em>forces: Optional[torch.Tensor] = None</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/nnp/vib.html#hessian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.vib.hessian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute analytical hessian from the energy graph or force graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coordinates</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <cite>(molecules, atoms, 3)</cite> or
+<code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code>.</li>
+<li><strong>energies</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <cite>(molecules,)</cite>, if specified,
+then <cite>forces</cite> must be <cite>None</cite>. This energies must be computed from
+<cite>coordinates</cite> in a graph.</li>
+<li><strong>forces</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <cite>(molecules, atoms, 3)</cite>, if specified,
+then <cite>energies</cite> must be <cite>None</cite>. This forces must be computed from
+<cite>coordinates</cite> in a graph.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Tensor of shape <cite>(molecules, 3A, 3A)</cite> where A is the number of
+atoms in each molecule</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nnp.vib.vibrational_analysis">
+<code class="descclassname">nnp.vib.</code><code class="descname">vibrational_analysis</code><span class="sig-paren">(</span><em>masses: torch.Tensor</em>, <em>hessian: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; nnp.vib.FreqsModes<a class="reference internal" href="_modules/nnp/vib.html#vibrational_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.vib.vibrational_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computing the vibrational wavenumbers from hessian.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="code/index.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples/planetary_motion.html" class="btn btn-neutral float-left" title="Use ASE to Simulate Planetary Motion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xiang Gao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

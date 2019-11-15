@@ -1,0 +1,12 @@
+
+:orphan:
+
+.. _sphx_glr_code_sg_execution_times:
+
+Computation times
+=================
+**00:00.154** total execution time for **code** files:
+
+- **00:00.057**: :ref:`sphx_glr_code_pbc.py` (``pbc.py``)
+- **00:00.048**: :ref:`sphx_glr_code_vib.py` (``vib.py``)
+- **00:00.048**: :ref:`sphx_glr_code_md.py` (``md.py``)

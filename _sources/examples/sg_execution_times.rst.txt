@@ -1,0 +1,10 @@
+
+:orphan:
+
+.. _sphx_glr_examples_sg_execution_times:
+
+Computation times
+=================
+**00:51.215** total execution time for **examples** files:
+
+- **00:51.215**: :ref:`sphx_glr_examples_planetary_motion.py` (``planetary_motion.py``)

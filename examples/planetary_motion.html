@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Use ASE to Simulate Planetary Motion &mdash; NNP 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Periodic Boundary Conditions" href="../api.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NNP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Use ASE to Simulate Planetary Motion</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#vibrational-analysis">Vibrational Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/vib.html">Vibrational Analysis</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NNP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>Use ASE to Simulate Planetary Motion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/planetary_motion.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-examples-planetary-motion-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="use-ase-to-simulate-planetary-motion">
+<span id="sphx-glr-examples-planetary-motion-py"></span><h1>Use ASE to Simulate Planetary Motion<a class="headerlink" href="#use-ase-to-simulate-planetary-motion" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial shows how to use <a class="reference external" href="https://wiki.fysik.dtu.dk/ase">ASE</a> to simulate planetary motion.
+Although both ASE and NNP are designed for molecular dynamics (MD),
+implementing a force field to do MD is not at a reasonable abount of
+work to use as a tutorial. So we simulate something different here.
+Assume we have two atoms, one hydrogen and one carbon. They are all
+moving under the gravity centered at the origin. There is no interaction
+between these two atoms.</p>
+<p>Let’s first import all the packages we will use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ase</span>
+<span class="kn">from</span> <span class="nn">ase.data</span> <span class="k">import</span> <span class="n">atomic_masses</span>
+<span class="kn">from</span> <span class="nn">ase.units</span> <span class="k">import</span> <span class="n">fs</span>
+<span class="kn">from</span> <span class="nn">ase.md.verlet</span> <span class="k">import</span> <span class="n">VelocityVerlet</span>
+<span class="kn">import</span> <span class="nn">nnp.md</span> <span class="k">as</span> <span class="nn">md</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<p>The module <cite>nnp.md</cite> provide tools to run molecular dynamics with a potential
+defined by PyTorch. To define the potential we need to provide a function that
+takes the chemical symbols, atom coordinates, unit cell, and PBC flag as an input
+and returns the molecular energy as an output. The output and input coordinates
+and cell must be in the a differentiable graph so that PyTorch could automatically
+compute the force and stress tensor using the <cite>autograd</cite> engine. In this example,
+we don’t care about the periodic boundary condition and unit cell because we
+are actually not simulating molecular system.</p>
+<p>From basic physics, we know that the equation for gravitational potential has
+the equation <span class="math notranslate nohighlight">\(E(r)=-\frac{GMm}{r}\)</span>. For simplicity, we choose <span class="math notranslate nohighlight">\(GM=1\)</span>
+when <span class="math notranslate nohighlight">\(E\)</span> is in <span class="math notranslate nohighlight">\(\mathrm{eV}\)</span>, <span class="math notranslate nohighlight">\(m\)</span> in <span class="math notranslate nohighlight">\(\mathrm{amu}\)</span>,
+and <span class="math notranslate nohighlight">\(r\)</span> in Angstrom.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gravity</span><span class="p">(</span><span class="n">chemical_symbols</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">_cell</span><span class="p">,</span> <span class="n">_pbc</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">chemical_symbols</span><span class="p">)</span> <span class="o">==</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">atomic_numbers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">atomic_masses</span><span class="p">[</span><span class="n">atomic_numbers</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chemical_symbols</span><span class="p">])</span>
+    <span class="n">inv_r</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">potential_energies</span> <span class="o">=</span> <span class="o">-</span> <span class="n">mass</span> <span class="o">*</span> <span class="n">inv_r</span>
+    <span class="k">return</span> <span class="n">potential_energies</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>with this potential, we could define an ASE calculator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calculator</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">gravity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let’s create two atoms, initially at (1, 0, 0) and (2, 0, 0)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">planets</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">(</span><span class="s1">&#39;CH&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>For the purpose of demonstration, we make these two atoms’s trajector a perfect
+circle at the XY plane. To do so, we need to carefully set the initial velocity.
+It is not hard to get that, the velocity is <span class="math notranslate nohighlight">\(v = \sqrt{\frac{GM}{r}}\)</span>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">planets</span><span class="o">.</span><span class="n">set_velocities</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">planets</span><span class="o">.</span><span class="n">set_calculator</span><span class="p">(</span><span class="n">calculator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can start the dynamics:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Y1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Z1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Y2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Z2</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">def</span> <span class="nf">dump_positions</span><span class="p">():</span>
+    <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span> <span class="o">=</span> <span class="n">planets</span><span class="o">.</span><span class="n">get_positions</span><span class="p">()</span>
+    <span class="n">X1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">Y1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span>
+    <span class="n">Z1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
+    <span class="n">X2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">Y2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y2</span><span class="p">)</span>
+    <span class="n">Z2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z2</span><span class="p">)</span>
+
+
+<span class="n">dyn</span> <span class="o">=</span> <span class="n">VelocityVerlet</span><span class="p">(</span><span class="n">planets</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>
+<span class="n">dyn</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">dump_positions</span><span class="p">)</span>
+<span class="n">dyn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let’s plot the trajectory to see what we get:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/sphx_glr_planetary_motion_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_planetary_motion_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/nnp/nnp/tests/planetary_motion.py:99: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+  plt.axes().set_aspect(&#39;equal&#39;)
+</pre></div>
+</div>
+<p>To check the correctness of this dynamics, we use pytest to test if it is on
+the XY plane and if the trajectory is circle:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_is_on_xy_plan</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">Z1</span> <span class="o">+</span> <span class="n">Z2</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span>
+
+
+<span class="k">def</span> <span class="nf">test_is_circle</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>============================= test session starts ==============================
+platform linux -- Python 3.7.5, pytest-5.2.3, py-1.8.0, pluggy-0.13.0
+rootdir: /home/runner/work/nnp/nnp, inifile: setup.cfg
+collected 2 items
+
+planetary_motion.py ..                                                   [100%]
+
+============================== 2 passed in 24.94s ==============================
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  51.215 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-planetary-motion-py">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../_downloads/962751cb3db10855c33516fa378f6cb3/planetary_motion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">planetary_motion.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../_downloads/bdb67ed45de76bd7de595cb0ffc4f6a6/planetary_motion.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">planetary_motion.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api.html" class="btn btn-neutral float-right" title="Periodic Boundary Conditions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xiang Gao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
