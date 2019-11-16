@@ -32,7 +32,8 @@ html4_writer = True
 sphinx_gallery_conf = {
     'examples_dirs': ['../tests/', '../nnp/'],
     'gallery_dirs': ['examples', 'code'],
-    'filename_pattern': r'.*\.py'
+    'filename_pattern': r'.*\.py',
+    'ignore_pattern': r'__init__\.py|test_.*',
 }
 
 intersphinx_mapping = {

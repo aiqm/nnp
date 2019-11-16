@@ -22,6 +22,7 @@ from ase.units import fs
 from ase.md.verlet import VelocityVerlet
 import nnp.md as md
 import pytest
+import sys
 import math
 import matplotlib.pyplot as plt
 
@@ -116,4 +117,4 @@ def test_is_circle():
 
 
 if __name__ == '__main__':
-    pytest.main()
+    pytest.main([sys.argv[0]])
