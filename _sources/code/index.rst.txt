@@ -9,13 +9,13 @@ This is the actually implementation. It is also self explained and export to doc
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This file contains">
+    <div class="sphx-glr-thumbcontainer" tooltip="The module nnp.so3 contains tools to rotate point clouds in 3D space.">
 
 .. only:: html
 
-    .. figure:: /code/images/thumb/sphx_glr_pbc_thumb.png
+ .. figure:: /code/images/thumb/sphx_glr_so3_thumb.png
 
-        :ref:`sphx_glr_code_pbc.py`
+     :ref:`sphx_glr_code_so3.py`
 
 .. raw:: html
 
@@ -25,7 +25,7 @@ This is the actually implementation. It is also self explained and export to doc
 .. toctree::
    :hidden:
 
-   /code/pbc
+   /code/so3
 
 .. raw:: html
 
@@ -33,9 +33,9 @@ This is the actually implementation. It is also self explained and export to doc
 
 .. only:: html
 
-    .. figure:: /code/images/thumb/sphx_glr_md_thumb.png
+ .. figure:: /code/images/thumb/sphx_glr_md_thumb.png
 
-        :ref:`sphx_glr_code_md.py`
+     :ref:`sphx_glr_code_md.py`
 
 .. raw:: html
 
@@ -49,13 +49,33 @@ This is the actually implementation. It is also self explained and export to doc
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="The module nnp.pbc contains tools to deal with periodic boundary conditions.">
+
+.. only:: html
+
+ .. figure:: /code/images/thumb/sphx_glr_pbc_thumb.png
+
+     :ref:`sphx_glr_code_pbc.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /code/pbc
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Vibrational Analysis">
 
 .. only:: html
 
-    .. figure:: /code/images/thumb/sphx_glr_vib_thumb.png
+ .. figure:: /code/images/thumb/sphx_glr_vib_thumb.png
 
-        :ref:`sphx_glr_code_vib.py`
+     :ref:`sphx_glr_code_vib.py`
 
 .. raw:: html
 
@@ -68,7 +88,7 @@ This is the actually implementation. It is also self explained and export to doc
    /code/vib
 .. raw:: html
 
-    <div style='clear:both'></div>
+    <div class="sphx-glr-clear"></div>
 
 
 

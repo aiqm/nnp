@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; NNP 0.0.2 documentation</title>
+  <title>&lt;no title&gt; &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Use ASE to Simulate Planetary Motion" href="planetary_motion.html" />
-    <link rel="prev" title="Installation" href="../start.html" /> 
+    <link rel="next" title="Rotation in 3D Space" href="rotation3d.html" />
+    <link rel="prev" title="Introduction" href="../start.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -86,24 +86,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code/vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -170,13 +173,19 @@
            <div itemprop="articleBody">
             
   <p id="sphx-glr-examples">Examples</p>
-<div class="sphx-glr-thumbcontainer" tooltip="This tutorial shows how to use `ASE`_ to simulate planetary motion. Although both ASE and NNP a..."><div class="figure align-default" id="id1">
-<img alt="../_images/sphx_glr_planetary_motion_thumb.png" src="../_images/sphx_glr_planetary_motion_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="planetary_motion.html#sphx-glr-examples-planetary-motion-py"><span class="std std-ref">Use ASE to Simulate Planetary Motion</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="This tutorial demonstrates how rotate a group of points in 3D space."><div class="figure align-default" id="id1">
+<img alt="../_images/sphx_glr_rotation3d_thumb.png" src="../_images/sphx_glr_rotation3d_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="rotation3d.html#sphx-glr-examples-rotation3d-py"><span class="std std-ref">Rotation in 3D Space</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div style='clear:both'></div><div class="sphx-glr-footer class sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-thumbcontainer" tooltip="This tutorial shows how to use `ASE`_ to simulate planetary motion. Although both ASE and NNP a..."><div class="figure align-default" id="id2">
+<img alt="../_images/sphx_glr_planetary_motion_thumb.png" src="../_images/sphx_glr_planetary_motion_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="planetary_motion.html#sphx-glr-examples-planetary-motion-py"><span class="std std-ref">Use ASE to Simulate Planetary Motion</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div><div class="sphx-glr-footer class sphx-glr-footer-gallery docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/5f25d89f02465cea84ff897cb63dc218/examples_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">examples_python.zip</span></code></a></div>
 <div class="sphx-glr-download docutils container">
@@ -192,10 +201,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="planetary_motion.html" class="btn btn-neutral float-right" title="Use ASE to Simulate Planetary Motion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rotation3d.html" class="btn btn-neutral float-right" title="Rotation in 3D Space" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../start.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../start.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

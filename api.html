@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Periodic Boundary Conditions &mdash; NNP 0.0.2 documentation</title>
+  <title>SO(3) Lie Group Operations &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -86,24 +86,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code/vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -150,7 +153,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Periodic Boundary Conditions</li>
+      <li>SO(3) Lie Group Operations</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -169,38 +172,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-nnp.pbc"></span><div class="section" id="periodic-boundary-conditions">
-<h1>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Permalink to this headline">¶</a></h1>
-<p>This file contains</p>
+  <span class="target" id="module-nnp.so3"></span><div class="section" id="so-3-lie-group-operations">
+<h1>SO(3) Lie Group Operations<a class="headerlink" href="#so-3-lie-group-operations" title="Permalink to this headline">¶</a></h1>
+<p>The module <code class="docutils literal notranslate"><span class="pre">nnp.so3</span></code> contains tools to rotate point clouds in 3D space.</p>
 <dl class="function">
-<dt id="nnp.pbc.map2central">
-<code class="descclassname">nnp.pbc.</code><code class="descname">map2central</code><span class="sig-paren">(</span><em>cell: torch.Tensor</em>, <em>coordinates: torch.Tensor</em>, <em>pbc: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/nnp/pbc.html#map2central"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.pbc.map2central" title="Permalink to this definition">¶</a></dt>
-<dd><p>Map atoms outside the unit cell into the cell using PBC.</p>
+<dt id="nnp.so3.rotate_along">
+<code class="descclassname">nnp.so3.</code><code class="descname">rotate_along</code><span class="sig-paren">(</span><em>axis: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/nnp/so3.html#rotate_along"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.so3.rotate_along" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute group elements of rotating along an axis passing origin.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cell</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – <p>tensor of shape (3, 3) of the three
-vectors defining unit cell:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tensor</span><span class="p">([[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">]])</span>
-</pre></div>
-</div>
-</li>
-<li><strong>coordinates</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code>
-or <code class="docutils literal notranslate"><span class="pre">(molecules,</span> <span class="pre">atoms,</span> <span class="pre">3)</span></code>.</li>
-<li><strong>pbc</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – boolean vector of size 3 storing
-if pbc is enabled for that direction.</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axis</strong> – a vector (x, y, z) whose direction specifies the axis of the rotation,
+length specifies the radius to rotate, and sign specifies clockwise
+or anti-clockwise.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">coordinates of atoms mapped back to unit cell.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a></p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the rotational matrix <span class="math notranslate nohighlight">\(\exp{\left(\theta W\right)}\)</span>.</td>
 </tr>
 </tbody>
 </table>
@@ -209,7 +196,7 @@ if pbc is enabled for that direction.</li>
 </div>
 <span class="target" id="module-nnp.md"></span><div class="section" id="molecular-dynamics">
 <h1>Molecular Dynamics<a class="headerlink" href="#molecular-dynamics" title="Permalink to this headline">¶</a></h1>
-<p>The module <cite>nnp.md</cite> provide tools to run molecular dynamics with a potential
+<p>The module <code class="docutils literal notranslate"><span class="pre">nnp.md</span></code> provide tools to run molecular dynamics with a potential
 defined by PyTorch.</p>
 <dl class="class">
 <dt id="nnp.md.Calculator">
@@ -261,6 +248,70 @@ implementation to set the atoms attribute.</p>
 </dd></dl>
 
 </div>
+<span class="target" id="module-nnp.pbc"></span><div class="section" id="periodic-boundary-conditions">
+<h1>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Permalink to this headline">¶</a></h1>
+<p>The module <code class="docutils literal notranslate"><span class="pre">nnp.pbc</span></code> contains tools to deal with periodic boundary conditions.</p>
+<dl class="function">
+<dt id="nnp.pbc.map2central">
+<code class="descclassname">nnp.pbc.</code><code class="descname">map2central</code><span class="sig-paren">(</span><em>cell: torch.Tensor</em>, <em>coordinates: torch.Tensor</em>, <em>pbc: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/nnp/pbc.html#map2central"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.pbc.map2central" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map atoms outside the unit cell into the cell using PBC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cell</strong> – <p>tensor of shape <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">3)</span></code> of the three vectors defining unit cell:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tensor</span><span class="p">([[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">]])</span>
+</pre></div>
+</div>
+</li>
+<li><strong>coordinates</strong> – Tensor of shape <code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code> or <code class="docutils literal notranslate"><span class="pre">(molecules,</span> <span class="pre">atoms,</span> <span class="pre">3)</span></code>.</li>
+<li><strong>pbc</strong> – boolean vector of size 3 storing if pbc is enabled for that direction.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">coordinates of atoms mapped back to unit cell.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nnp.pbc.num_repeats">
+<code class="descclassname">nnp.pbc.</code><code class="descname">num_repeats</code><span class="sig-paren">(</span><em>cell: torch.Tensor</em>, <em>pbc: torch.Tensor</em>, <em>cutoff: float</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/nnp/pbc.html#num_repeats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.pbc.num_repeats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the number of repeats required along each cell vector to make
+the original cell and repeated cells together form a large enough box
+so that for each atom in the original cell, all its neighbor atoms within
+the given cutoff distance are contained in the big box.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cell</strong> – <p>tensor of shape <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">3)</span></code> of the three vectors defining unit cell:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tensor</span><span class="p">([[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">]])</span>
+</pre></div>
+</div>
+</li>
+<li><strong>pbc</strong> – boolean vector of size 3 storing if pbc is enabled for that direction.</li>
+<li><strong>cutoff</strong> – the cutoff inside which atoms are considered as pairs</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numbers of repeats required to make the repeated box contains all the neighbors
+of atoms in the ceter cell</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <span class="target" id="module-nnp.vib"></span><div class="section" id="vibrational-analysis">
 <h1>Vibrational Analysis<a class="headerlink" href="#vibrational-analysis" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
@@ -289,22 +340,18 @@ implementation to set the atoms attribute.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coordinates</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <cite>(molecules, atoms, 3)</cite> or
-<code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code>.</li>
-<li><strong>energies</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <cite>(molecules,)</cite>, if specified,
-then <cite>forces</cite> must be <cite>None</cite>. This energies must be computed from
-<cite>coordinates</cite> in a graph.</li>
-<li><strong>forces</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a>) – Tensor of shape <cite>(molecules, atoms, 3)</cite>, if specified,
+<li><strong>coordinates</strong> – Tensor of shape <cite>(molecules, atoms, 3)</cite> or <code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code>.</li>
+<li><strong>energies</strong> – Tensor of shape <cite>(molecules,)</cite>, if specified, then <cite>forces</cite>
+must be <cite>None</cite>. This energies must be computed from <cite>coordinates</cite>
+in a graph.</li>
+<li><strong>forces</strong> – Tensor of shape <cite>(molecules, atoms, 3)</cite>, if specified,
 then <cite>energies</cite> must be <cite>None</cite>. This forces must be computed from
 <cite>coordinates</cite> in a graph.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Tensor of shape <cite>(molecules, 3A, 3A)</cite> where A is the number of
-atoms in each molecule</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.4.0a0+6dc8d72 ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Tensor</span></code></a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Tensor of shape <cite>(molecules, 3A, 3A)</cite> where A is the number of atoms in
+each molecule</p>
 </td>
 </tr>
 </tbody>

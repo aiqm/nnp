@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Vibrational Analysis &mdash; NNP 0.0.2 documentation</title>
+  <title>Vibrational Analysis &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Molecular Dynamics" href="md.html" /> 
+    <link rel="prev" title="Periodic Boundary Conditions" href="pbc.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -85,24 +85,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Vibrational Analysis</a></li>
 </ul>
 
@@ -177,27 +180,26 @@
 <div class="sphx-glr-example-title section" id="vibrational-analysis">
 <span id="sphx-glr-code-vib-py"></span><h1>Vibrational Analysis<a class="headerlink" href="#vibrational-analysis" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple" title="View documentation for typing.NamedTuple"><span class="n">NamedTuple</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/typing.html#typing.Optional" title="View documentation for typing.Optional"><span class="n">Optional</span></a>
 <span class="kn">import</span> <span class="nn">math</span>
 
 
-<span class="k">def</span> <span class="nf">hessian</span><span class="p">(</span><span class="n">coordinates</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">energies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">forces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">hessian</span><span class="p">(</span><span class="n">coordinates</span><span class="p">:</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">,</span> <span class="n">energies</span><span class="p">:</span> <a href="https://docs.python.org/3/library/typing.html#typing.Optional" title="View documentation for typing.Optional"><span class="n">Optional</span></a><span class="p">[</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">forces</span><span class="p">:</span> <a href="https://docs.python.org/3/library/typing.html#typing.Optional" title="View documentation for typing.Optional"><span class="n">Optional</span></a><span class="p">[</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Compute analytical hessian from the energy graph or force graph.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        coordinates (:class:`torch.Tensor`): Tensor of shape `(molecules, atoms, 3)` or</span>
-<span class="sd">            ``(atoms, 3)``.</span>
-<span class="sd">        energies (:class:`torch.Tensor`): Tensor of shape `(molecules,)`, if specified,</span>
-<span class="sd">            then `forces` must be `None`. This energies must be computed from</span>
-<span class="sd">            `coordinates` in a graph.</span>
-<span class="sd">        forces (:class:`torch.Tensor`): Tensor of shape `(molecules, atoms, 3)`, if specified,</span>
+<span class="sd">        coordinates: Tensor of shape `(molecules, atoms, 3)` or ``(atoms, 3)``.</span>
+<span class="sd">        energies: Tensor of shape `(molecules,)`, if specified, then `forces`</span>
+<span class="sd">            must be `None`. This energies must be computed from `coordinates`</span>
+<span class="sd">            in a graph.</span>
+<span class="sd">        forces: Tensor of shape `(molecules, atoms, 3)`, if specified,</span>
 <span class="sd">            then `energies` must be `None`. This forces must be computed from</span>
 <span class="sd">            `coordinates` in a graph.</span>
 <span class="sd">    Returns:</span>
-<span class="sd">        :class:`torch.Tensor`: Tensor of shape `(molecules, 3A, 3A)` where A is the number of</span>
-<span class="sd">        atoms in each molecule</span>
+<span class="sd">        Tensor of shape `(molecules, 3A, 3A)` where A is the number of atoms in</span>
+<span class="sd">        each molecule</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">energies</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">forces</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
@@ -205,23 +207,24 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Energies or forces can not be specified at the same time&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">forces</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">energies</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="n">forces</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">energies</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">forces</span> <span class="o">=</span> <span class="o">-</span><a href="https://pytorch.org/docs/master/autograd.html#torch.autograd.grad" title="View documentation for torch.autograd.grad"><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span></a><span class="p">(</span>
+            <span class="p">[</span><span class="n">energies</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span> <span class="p">[</span><span class="n">coordinates</span><span class="p">],</span> <span class="n">create_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">flattened_force</span> <span class="o">=</span> <span class="n">forces</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">force_components</span> <span class="o">=</span> <span class="n">flattened_force</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span>
-        <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">retain_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><a href="https://pytorch.org/docs/master/torch.html#torch.stack" title="View documentation for torch.stack"><span class="n">torch</span><span class="o">.</span><span class="n">stack</span></a><span class="p">([</span>
+        <a href="https://pytorch.org/docs/master/autograd.html#torch.autograd.grad" title="View documentation for torch.autograd.grad"><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span></a><span class="p">(</span>
+            <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span> <span class="p">[</span><span class="n">coordinates</span><span class="p">],</span> <span class="n">retain_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">force_components</span>
     <span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">FreqsModes</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="n">freqs</span><span class="p">:</span> <span class="n">Tensor</span>
-    <span class="n">modes</span><span class="p">:</span> <span class="n">Tensor</span>
+<span class="k">class</span> <span class="nc">FreqsModes</span><span class="p">(</span><a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple" title="View documentation for typing.NamedTuple"><span class="n">NamedTuple</span></a><span class="p">):</span>
+    <span class="n">freqs</span><span class="p">:</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a>
+    <span class="n">modes</span><span class="p">:</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a>
 
 
-<span class="k">def</span> <span class="nf">vibrational_analysis</span><span class="p">(</span><span class="n">masses</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">hessian</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FreqsModes</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">vibrational_analysis</span><span class="p">(</span><span class="n">masses</span><span class="p">:</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#object" title="View documentation for builtins.object"><span class="n">hessian</span></a><span class="p">:</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">)</span> <span class="o">-&gt;</span> <a href="https://docs.python.org/3/library/functions.html#type" title="View documentation for builtins.type"><span class="n">FreqsModes</span></a><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Computing the vibrational wavenumbers from hessian.&quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">hessian</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Currently only supporting computing one molecule a time&#39;</span>
     <span class="c1"># Solving the eigenvalue problem: Hq = w^2 * T q</span>
     <span class="c1"># where H is the Hessian matrix, q is the normal coordinates,</span>
     <span class="c1"># T = diag(m1, m1, m1, m2, m2, m2, ....) is the mass</span>
@@ -230,18 +233,16 @@
     <span class="c1"># Letting q&#39; = T^(1/2) q, we then have</span>
     <span class="c1"># T^(-1/2) H T^(-1/2) q&#39; = w^2 * q&#39;</span>
     <span class="n">inv_sqrt_mass</span> <span class="o">=</span> <span class="n">masses</span><span class="o">.</span><span class="n">rsqrt</span><span class="p">()</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># shape (molecule, 3 * atoms)</span>
-    <span class="n">mass_scaled_hessian</span> <span class="o">=</span> <span class="n">hessian</span> <span class="o">*</span> <span class="n">inv_sqrt_mass</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">inv_sqrt_mass</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">mass_scaled_hessian</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The input should contain only one molecule&#39;</span><span class="p">)</span>
+    <span class="n">mass_scaled_hessian</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#object" title="View documentation for builtins.object"><span class="n">hessian</span></a> <span class="o">*</span> <span class="n">inv_sqrt_mass</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">inv_sqrt_mass</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">mass_scaled_hessian</span> <span class="o">=</span> <span class="n">mass_scaled_hessian</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">symeig</span><span class="p">(</span><span class="n">mass_scaled_hessian</span><span class="p">,</span> <span class="n">eigenvectors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.symeig" title="View documentation for torch.symeig"><span class="n">torch</span><span class="o">.</span><span class="n">symeig</span></a><span class="p">(</span><span class="n">mass_scaled_hessian</span><span class="p">,</span> <span class="n">eigenvectors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">angular_frequencies</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
-    <span class="n">frequencies</span> <span class="o">=</span> <span class="n">angular_frequencies</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">frequencies</span> <span class="o">=</span> <span class="n">angular_frequencies</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/math.html#math.pi" title="View documentation for math.pi"><span class="n">math</span><span class="o">.</span><span class="n">pi</span></a><span class="p">)</span>
     <span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="n">eigenvectors</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="o">*</span> <span class="n">inv_sqrt_mass</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">frequencies</span><span class="o">.</span><span class="n">numel</span><span class="p">(),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">FreqsModes</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
+    <span class="k">return</span> <a href="https://docs.python.org/3/library/functions.html#type" title="View documentation for builtins.type"><span class="n">FreqsModes</span></a><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">modes</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.048 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.002 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-code-vib-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/85ed5504b261e5564bcca06bfddf932f/vib.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vib.py</span></code></a></div>
@@ -260,7 +261,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="md.html" class="btn btn-neutral float-left" title="Molecular Dynamics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="pbc.html" class="btn btn-neutral float-left" title="Periodic Boundary Conditions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

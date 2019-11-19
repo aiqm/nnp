@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; NNP 0.0.2 documentation</title>
+  <title>Introduction &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -86,24 +86,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code/vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -150,7 +153,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Installation</li>
+      <li>Introduction</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -169,12 +172,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>NNP is a python package that provide common tools used wo work with
+neural network potentials with PyTorch. Currently it includes tools
+to deal with periodic boundary condition, rotation in 3D space, analytical
+hessian, vibrational analysis, and molecular dynamics.</p>
 <p>To install NNP, just do</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install nnp
 </pre></div>
 </div>
+<p>TODO:
+- [x] so3
+- [x] test so3
+- [ ] pbc
+- [ ] test pbc
+- [ ] md
+- [x] test md: autograd
+- [ ] test md: stress
+- [ ] vib
+- [ ] test vib</p>
 </div>
 
 

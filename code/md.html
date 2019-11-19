@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Molecular Dynamics &mdash; NNP 0.0.2 documentation</title>
+  <title>Molecular Dynamics &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Vibrational Analysis" href="vib.html" />
-    <link rel="prev" title="Periodic Boundary Conditions" href="pbc.html" /> 
+    <link rel="next" title="Periodic Boundary Conditions" href="pbc.html" />
+    <link rel="prev" title="SO(3) Lie Group Operations" href="so3.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -86,24 +86,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -177,16 +180,16 @@
 </div>
 <div class="sphx-glr-example-title section" id="molecular-dynamics">
 <span id="sphx-glr-code-md-py"></span><h1>Molecular Dynamics<a class="headerlink" href="#molecular-dynamics" title="Permalink to this headline">¶</a></h1>
-<p>The module <cite>nnp.md</cite> provide tools to run molecular dynamics with a potential
+<p>The module <code class="docutils literal notranslate"><span class="pre">nnp.md</span></code> provide tools to run molecular dynamics with a potential
 defined by PyTorch.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
-<span class="kn">import</span> <span class="nn">ase.calculators.calculator</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a>
 <span class="kn">from</span> <span class="nn">nnp</span> <span class="k">import</span> <span class="n">pbc</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <a href="https://docs.python.org/3/library/typing.html#typing.Callable" title="View documentation for typing.Callable"><span class="n">Callable</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="View documentation for typing.Sequence"><span class="n">Sequence</span></a>
+<span class="kn">import</span> <span class="nn">ase.calculators.calculator</span>
 
 
-<span class="k">class</span> <span class="nc">Calculator</span><span class="p">(</span><span class="n">ase</span><span class="o">.</span><span class="n">calculators</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">Calculator</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Calculator</span><span class="p">(</span><span class="n">ase</span><span class="o">.</span><span class="n">calculators</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><a href="https://docs.python.org/3/library/functions.html#type" title="View documentation for builtins.type"><span class="n">Calculator</span></a><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ASE Calculator that wraps a neural network potential</span>
 
 <span class="sd">    Arguments:</span>
@@ -198,25 +201,25 @@ defined by PyTorch.</p>
 
     <span class="n">implemented_properties</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="s1">&#39;forces&#39;</span><span class="p">,</span> <span class="s1">&#39;stress&#39;</span><span class="p">,</span> <span class="s1">&#39;free_energy&#39;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">],</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <a href="https://docs.python.org/3/library/typing.html#typing.Callable" title="View documentation for typing.Callable"><span class="n">Callable</span></a><span class="p">[[</span><a href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="View documentation for typing.Sequence"><span class="n">Sequence</span></a><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">,</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">,</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">],</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">Tensor</span></a><span class="p">],</span>
                  <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Calculator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#type" title="View documentation for builtins.type"><span class="n">Calculator</span></a><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">overwrite</span> <span class="o">=</span> <span class="n">overwrite</span>
 
     <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">],</span>
                   <span class="n">system_changes</span><span class="o">=</span><span class="n">ase</span><span class="o">.</span><span class="n">calculators</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">all_changes</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Calculator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">system_changes</span><span class="p">)</span>
-        <span class="n">coordinates</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_positions</span><span class="p">())</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="s1">&#39;forces&#39;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#type" title="View documentation for builtins.type"><span class="n">Calculator</span></a><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">system_changes</span><span class="p">)</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.from_numpy" title="View documentation for torch.from_numpy"><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span></a><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_positions</span><span class="p">())</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="s1">&#39;forces&#39;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">)</span>
         <span class="n">cell</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">complete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
-        <span class="n">pbc_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_pbc</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+        <span class="n">pbc_</span> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.tensor" title="View documentation for torch.tensor"><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span></a><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_pbc</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
         <span class="n">pbc_enabled</span> <span class="o">=</span> <span class="n">pbc_</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">pbc_enabled</span><span class="p">:</span>
             <span class="n">coordinates</span> <span class="o">=</span> <span class="n">pbc</span><span class="o">.</span><span class="n">map2central</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">,</span> <span class="n">pbc_</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s1">&#39;stress&#39;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-            <span class="n">scaling</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">scaling</span> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.eye" title="View documentation for torch.eye"><span class="n">torch</span><span class="o">.</span><span class="n">eye</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span> <span class="o">@</span> <span class="n">scaling</span>
             <span class="n">cell</span> <span class="o">=</span> <span class="n">cell</span> <span class="o">@</span> <span class="n">scaling</span>
 
@@ -226,16 +229,16 @@ defined by PyTorch.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;free_energy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">energy</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="s1">&#39;forces&#39;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-            <span class="n">forces</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">forces</span> <span class="o">=</span> <span class="o">-</span><a href="https://pytorch.org/docs/master/autograd.html#torch.autograd.grad" title="View documentation for torch.autograd.grad"><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span></a><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;forces&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forces</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="s1">&#39;stress&#39;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
             <span class="n">volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_volume</span><span class="p">()</span>
-            <span class="n">stress</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">scaling</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">volume</span>
+            <span class="n">stress</span> <span class="o">=</span> <a href="https://pytorch.org/docs/master/autograd.html#torch.autograd.grad" title="View documentation for torch.autograd.grad"><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span></a><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">scaling</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">volume</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;stress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.048 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.002 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-code-md-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/71dba08cf96abb378a7608c23a6e32cc/md.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">md.py</span></code></a></div>
@@ -253,10 +256,10 @@ defined by PyTorch.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="vib.html" class="btn btn-neutral float-right" title="Vibrational Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pbc.html" class="btn btn-neutral float-right" title="Periodic Boundary Conditions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pbc.html" class="btn btn-neutral float-left" title="Periodic Boundary Conditions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="so3.html" class="btn btn-neutral float-left" title="SO(3) Lie Group Operations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

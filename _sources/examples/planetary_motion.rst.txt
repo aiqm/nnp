@@ -32,8 +32,10 @@ Let's first import all the packages we will use:
     from ase.md.verlet import VelocityVerlet
     import nnp.md as md
     import pytest
+    import sys
     import math
     import matplotlib.pyplot as plt
+
 
 
 
@@ -75,12 +77,14 @@ and :math:`r` in Angstrom.
 
 
 
+
 with this potential, we could define an ASE calculator:
 
 
 .. code-block:: default
 
     calculator = md.Calculator(gravity)
+
 
 
 
@@ -101,6 +105,7 @@ Now let's create two atoms, initially at (1, 0, 0) and (2, 0, 0)
 
 
 
+
 For the purpose of demonstration, we make these two atoms's trajector a perfect
 circle at the XY plane. To do so, we need to carefully set the initial velocity.
 It is not hard to get that, the velocity is :math:`v = \sqrt{\frac{GM}{r}}`.
@@ -110,6 +115,7 @@ It is not hard to get that, the velocity is :math:`v = \sqrt{\frac{GM}{r}}`.
 
     planets.set_velocities([[0, 1, 0], [0, 1 / math.sqrt(2), 0]])
     planets.set_calculator(calculator)
+
 
 
 
@@ -148,6 +154,15 @@ Now we can start the dynamics:
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    True
+
 
 
 Now let's plot the trajectory to see what we get:
@@ -177,8 +192,9 @@ Now let's plot the trajectory to see what we get:
 
  .. code-block:: none
 
-    /home/runner/work/nnp/nnp/tests/planetary_motion.py:99: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+    /home/runner/work/nnp/nnp/tests/planetary_motion.py:100: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
       plt.axes().set_aspect('equal')
+
 
 
 
@@ -201,7 +217,7 @@ the XY plane and if the trajectory is circle:
 
 
     if __name__ == '__main__':
-        pytest.main()
+        pytest.main([sys.argv[0]])
 
 
 
@@ -213,20 +229,21 @@ the XY plane and if the trajectory is circle:
  .. code-block:: none
 
     ============================= test session starts ==============================
-    platform linux -- Python 3.7.5, pytest-5.2.3, py-1.8.0, pluggy-0.13.0
+    platform linux -- Python 3.7.5, pytest-5.2.4, py-1.8.0, pluggy-0.13.0
     rootdir: /home/runner/work/nnp/nnp, inifile: setup.cfg
     collected 2 items
 
     planetary_motion.py ..                                                   [100%]
 
-    ============================== 2 passed in 24.94s ==============================
+    ============================== 2 passed in 25.65s ==============================
+
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  51.215 seconds)
+   **Total running time of the script:** ( 0 minutes  51.576 seconds)
 
 
 .. _sphx_glr_download_examples_planetary_motion.py:

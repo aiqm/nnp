@@ -10,8 +10,9 @@
 Molecular Dynamics
 ==================
 
-The module `nnp.md` provide tools to run molecular dynamics with a potential
+The module ``nnp.md`` provide tools to run molecular dynamics with a potential
 defined by PyTorch.
+
 
 
 
@@ -24,9 +25,9 @@ defined by PyTorch.
 
     import torch
     from torch import Tensor
-    import ase.calculators.calculator
     from nnp import pbc
     from typing import Callable, Sequence
+    import ase.calculators.calculator
 
 
     class Calculator(ase.calculators.calculator.Calculator):
@@ -80,7 +81,7 @@ defined by PyTorch.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.048 seconds)
+   **Total running time of the script:** ( 0 minutes  0.002 seconds)
 
 
 .. _sphx_glr_download_code_md.py:

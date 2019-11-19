@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nnp.pbc &mdash; NNP 0.0.2 documentation</title>
+  <title>nnp.pbc &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -84,24 +84,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../code/vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -170,19 +173,25 @@
 <span class="sd">Periodic Boundary Conditions</span>
 <span class="sd">============================</span>
 
-<span class="sd">This file contains</span>
+<span class="sd">The module ``nnp.pbc`` contains tools to deal with periodic boundary conditions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="c1">###############################################################################</span>
+<span class="c1"># Let&#39;s first import all the packages we will use:</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
 
 
-<div class="viewcode-block" id="map2central"><a class="viewcode-back" href="../../api.html#nnp.pbc.map2central">[docs]</a><span class="k">def</span> <span class="nf">map2central</span><span class="p">(</span><span class="n">cell</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pbc</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Map atoms outside the unit cell into the cell using PBC.</span>
+<span class="c1">###############################################################################</span>
+<span class="c1"># The following function computes the number of repeats required to capture</span>
+<span class="c1"># all the neighbor atoms within the cutoff radius.</span>
+<div class="viewcode-block" id="num_repeats"><a class="viewcode-back" href="../../api.html#nnp.pbc.num_repeats">[docs]</a><span class="k">def</span> <span class="nf">num_repeats</span><span class="p">(</span><span class="n">cell</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pbc</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Compute the number of repeats required along each cell vector to make</span>
+<span class="sd">    the original cell and repeated cells together form a large enough box</span>
+<span class="sd">    so that for each atom in the original cell, all its neighbor atoms within</span>
+<span class="sd">    the given cutoff distance are contained in the big box.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        cell (:class:`torch.Tensor`): tensor of shape (3, 3) of the three</span>
-<span class="sd">            vectors defining unit cell:</span>
+<span class="sd">        cell: tensor of shape ``(3, 3)`` of the three vectors defining unit cell:</span>
 
 <span class="sd">            .. code-block:: python</span>
 
@@ -190,12 +199,36 @@
 <span class="sd">                        [x2, y2, z2],</span>
 <span class="sd">                        [x3, y3, z3]])</span>
 
-<span class="sd">        coordinates (:class:`torch.Tensor`): Tensor of shape ``(atoms, 3)``</span>
-<span class="sd">            or ``(molecules, atoms, 3)``.</span>
-<span class="sd">        pbc (:class:`torch.Tensor`): boolean vector of size 3 storing</span>
-<span class="sd">            if pbc is enabled for that direction.</span>
+<span class="sd">        pbc: boolean vector of size 3 storing if pbc is enabled for that direction.</span>
+<span class="sd">        cutoff: the cutoff inside which atoms are considered as pairs</span>
+
 <span class="sd">    Returns:</span>
-<span class="sd">        :class:`torch.Tensor`: coordinates of atoms mapped back to unit cell.</span>
+<span class="sd">        numbers of repeats required to make the repeated box contains all the neighbors</span>
+<span class="sd">        of atoms in the ceter cell</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reciprocal_cell</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+    <span class="n">inv_distances</span> <span class="o">=</span> <span class="n">reciprocal_cell</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">cutoff</span> <span class="o">*</span> <span class="n">inv_distances</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pbc</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="map2central"><a class="viewcode-back" href="../../api.html#nnp.pbc.map2central">[docs]</a><span class="k">def</span> <span class="nf">map2central</span><span class="p">(</span><span class="n">cell</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pbc</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Map atoms outside the unit cell into the cell using PBC.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        cell: tensor of shape ``(3, 3)`` of the three vectors defining unit cell:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                tensor([[x1, y1, z1],</span>
+<span class="sd">                        [x2, y2, z2],</span>
+<span class="sd">                        [x3, y3, z3]])</span>
+
+<span class="sd">        coordinates: Tensor of shape ``(atoms, 3)`` or ``(molecules, atoms, 3)``.</span>
+<span class="sd">        pbc: boolean vector of size 3 storing if pbc is enabled for that direction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        coordinates of atoms mapped back to unit cell.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Step 1: convert coordinates from standard cartesian coordinate to unit</span>
     <span class="c1"># cell coordinates</span>

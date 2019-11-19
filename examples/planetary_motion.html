@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Use ASE to Simulate Planetary Motion &mdash; NNP 0.0.2 documentation</title>
+  <title>Use ASE to Simulate Planetary Motion &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Periodic Boundary Conditions" href="../api.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="index.html" /> 
+    <link rel="next" title="SO(3) Lie Group Operations" href="../api.html" />
+    <link rel="prev" title="Rotation in 3D Space" href="rotation3d.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -86,24 +86,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../code/vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -186,11 +189,12 @@ moving under the gravity centered at the origin. There is no interaction
 between these two atoms.</p>
 <p>Let’s first import all the packages we will use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ase</span>
-<span class="kn">from</span> <span class="nn">ase.data</span> <span class="k">import</span> <span class="n">atomic_masses</span>
+<span class="kn">from</span> <span class="nn">ase.data</span> <span class="k">import</span> <a href="https://wiki.fysik.dtu.dk/ase/ase/data.html#ase.data.atomic_masses" title="View documentation for ase.data.atomic_masses"><span class="n">atomic_masses</span></a>
 <span class="kn">from</span> <span class="nn">ase.units</span> <span class="k">import</span> <span class="n">fs</span>
-<span class="kn">from</span> <span class="nn">ase.md.verlet</span> <span class="k">import</span> <span class="n">VelocityVerlet</span>
+<span class="kn">from</span> <span class="nn">ase.md.verlet</span> <span class="k">import</span> <a href="https://wiki.fysik.dtu.dk/ase/ase/md.html#ase.md.verlet.VelocityVerlet" title="View documentation for ase.md.verlet.VelocityVerlet"><span class="n">VelocityVerlet</span></a>
 <span class="kn">import</span> <span class="nn">nnp.md</span> <span class="k">as</span> <span class="nn">md</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
@@ -211,56 +215,60 @@ and <span class="math notranslate nohighlight">\(r\)</span> in Angstrom.</p>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">chemical_symbols</span><span class="p">)</span> <span class="o">==</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">atomic_numbers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
     <span class="n">mass</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">new_tensor</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">atomic_masses</span><span class="p">[</span><span class="n">atomic_numbers</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chemical_symbols</span><span class="p">])</span>
+        <span class="p">[</span><a href="https://wiki.fysik.dtu.dk/ase/ase/data.html#ase.data.atomic_masses" title="View documentation for ase.data.atomic_masses"><span class="n">atomic_masses</span></a><span class="p">[</span><span class="n">atomic_numbers</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chemical_symbols</span><span class="p">])</span>
     <span class="n">inv_r</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">potential_energies</span> <span class="o">=</span> <span class="o">-</span> <span class="n">mass</span> <span class="o">*</span> <span class="n">inv_r</span>
     <span class="k">return</span> <span class="n">potential_energies</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>with this potential, we could define an ASE calculator:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calculator</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">gravity</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calculator</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#object" title="View documentation for builtins.object"><span class="n">gravity</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now let’s create two atoms, initially at (1, 0, 0) and (2, 0, 0)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">planets</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span><span class="p">(</span><span class="s1">&#39;CH&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms" title="View documentation for ase.Atoms"><span class="n">planets</span></a> <span class="o">=</span> <a href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms" title="View documentation for ase.Atoms"><span class="n">ase</span><span class="o">.</span><span class="n">Atoms</span></a><span class="p">(</span><span class="s1">&#39;CH&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>For the purpose of demonstration, we make these two atoms’s trajector a perfect
 circle at the XY plane. To do so, we need to carefully set the initial velocity.
 It is not hard to get that, the velocity is <span class="math notranslate nohighlight">\(v = \sqrt{\frac{GM}{r}}\)</span>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">planets</span><span class="o">.</span><span class="n">set_velocities</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">]])</span>
-<span class="n">planets</span><span class="o">.</span><span class="n">set_calculator</span><span class="p">(</span><span class="n">calculator</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.set_velocities" title="View documentation for ase.Atoms.set_velocities"><span class="n">planets</span><span class="o">.</span><span class="n">set_velocities</span></a><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/math.html#math.sqrt" title="View documentation for math.sqrt"><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">]])</span>
+<a href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.set_calculator" title="View documentation for ase.Atoms.set_calculator"><span class="n">planets</span><span class="o">.</span><span class="n">set_calculator</span></a><span class="p">(</span><span class="n">calculator</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now we can start the dynamics:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X1</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">Y1</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">Z1</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">X2</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">Y2</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">Z2</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X1</span></a> <span class="o">=</span> <span class="p">[]</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y1</span></a> <span class="o">=</span> <span class="p">[]</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Z1</span></a> <span class="o">=</span> <span class="p">[]</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X2</span></a> <span class="o">=</span> <span class="p">[]</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y2</span></a> <span class="o">=</span> <span class="p">[]</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Z2</span></a> <span class="o">=</span> <span class="p">[]</span>
 
 
 <span class="k">def</span> <span class="nf">dump_positions</span><span class="p">():</span>
-    <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span> <span class="o">=</span> <span class="n">planets</span><span class="o">.</span><span class="n">get_positions</span><span class="p">()</span>
-    <span class="n">X1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
-    <span class="n">Y1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span>
-    <span class="n">Z1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
-    <span class="n">X2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-    <span class="n">Y2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y2</span><span class="p">)</span>
-    <span class="n">Z2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z2</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span> <span class="o">=</span> <a href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms.get_positions" title="View documentation for ase.Atoms.get_positions"><span class="n">planets</span><span class="o">.</span><span class="n">get_positions</span></a><span class="p">()</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X1</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y1</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Z1</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X2</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y2</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y2</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Z2</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z2</span><span class="p">)</span>
 
 
-<span class="n">dyn</span> <span class="o">=</span> <span class="n">VelocityVerlet</span><span class="p">(</span><span class="n">planets</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>
-<span class="n">dyn</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">dump_positions</span><span class="p">)</span>
-<span class="n">dyn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
+<a href="https://wiki.fysik.dtu.dk/ase/ase/md.html#ase.md.verlet.VelocityVerlet" title="View documentation for ase.md.verlet.VelocityVerlet"><span class="n">dyn</span></a> <span class="o">=</span> <a href="https://wiki.fysik.dtu.dk/ase/ase/md.html#ase.md.verlet.VelocityVerlet" title="View documentation for ase.md.verlet.VelocityVerlet"><span class="n">VelocityVerlet</span></a><span class="p">(</span><a href="https://wiki.fysik.dtu.dk/ase/ase/atoms.html#ase.Atoms" title="View documentation for ase.Atoms"><span class="n">planets</span></a><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>
+<a href="https://wiki.fysik.dtu.dk/ase/ase/md.html#ase.md.verlet.VelocityVerlet" title="View documentation for ase.md.verlet.VelocityVerlet"><span class="n">dyn</span></a><span class="o">.</span><span class="n">attach</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#object" title="View documentation for builtins.object"><span class="n">dump_positions</span></a><span class="p">)</span>
+<a href="https://wiki.fysik.dtu.dk/ase/ase/md.html#ase.md.verlet.VelocityVerlet" title="View documentation for ase.md.verlet.VelocityVerlet"><span class="n">dyn</span></a><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>True
 </pre></div>
 </div>
 <p>Now let’s plot the trajectory to see what we get:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X1</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y1</span></a><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X2</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y2</span></a><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -268,40 +276,40 @@ It is not hard to get that, the velocity is <span class="math notranslate nohigh
 </div>
 <img alt="../_images/sphx_glr_planetary_motion_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_planetary_motion_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/nnp/nnp/tests/planetary_motion.py:99: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/nnp/nnp/tests/planetary_motion.py:100: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
   plt.axes().set_aspect(&#39;equal&#39;)
 </pre></div>
 </div>
 <p>To check the correctness of this dynamics, we use pytest to test if it is on
 the XY plane and if the trajectory is circle:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_is_on_xy_plan</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">Z1</span> <span class="o">+</span> <span class="n">Z2</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Z1</span></a> <span class="o">+</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Z2</span></a><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span>
 
 
 <span class="k">def</span> <span class="nf">test_is_circle</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X1</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y1</span></a><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><a href="https://docs.python.org/3/library/math.html#math.sqrt" title="View documentation for math.sqrt"><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">X2</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="View documentation for builtins.list"><span class="n">Y2</span></a><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><a href="https://docs.python.org/3/library/math.html#math.sqrt" title="View documentation for math.sqrt"><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><a href="https://docs.python.org/3/library/sys.html#sys.argv" title="View documentation for sys.argv"><span class="n">sys</span><span class="o">.</span><span class="n">argv</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>============================= test session starts ==============================
-platform linux -- Python 3.7.5, pytest-5.2.3, py-1.8.0, pluggy-0.13.0
+platform linux -- Python 3.7.5, pytest-5.2.4, py-1.8.0, pluggy-0.13.0
 rootdir: /home/runner/work/nnp/nnp, inifile: setup.cfg
 collected 2 items
 
 planetary_motion.py ..                                                   [100%]
 
-============================== 2 passed in 24.94s ==============================
+============================== 2 passed in 25.65s ==============================
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  51.215 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  51.576 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-planetary-motion-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/962751cb3db10855c33516fa378f6cb3/planetary_motion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">planetary_motion.py</span></code></a></div>
@@ -319,10 +327,10 @@ planetary_motion.py ..                                                   [100%]
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../api.html" class="btn btn-neutral float-right" title="Periodic Boundary Conditions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../api.html" class="btn btn-neutral float-right" title="SO(3) Lie Group Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="rotation3d.html" class="btn btn-neutral float-left" title="Rotation in 3D Space" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

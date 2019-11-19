@@ -4,7 +4,7 @@ Welcome to NNP's documentation!
 
 .. toctree::
     :maxdepth: 2
-    :caption: Getting Started
+    :caption: Introduction
 
     start
 

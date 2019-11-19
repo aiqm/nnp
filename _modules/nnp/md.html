@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nnp.md &mdash; NNP 0.0.2 documentation</title>
+  <title>nnp.md &mdash; NNP 0.0.3 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -84,24 +84,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <p class="caption"><span class="caption-text">Introduction</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../start.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html#vibrational-analysis">Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/so3.html">SO(3) Lie Group Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/pbc.html">Periodic Boundary Conditions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../code/vib.html">Vibrational Analysis</a></li>
 </ul>
 
@@ -170,15 +173,15 @@
 <span class="sd">Molecular Dynamics</span>
 <span class="sd">==================</span>
 
-<span class="sd">The module `nnp.md` provide tools to run molecular dynamics with a potential</span>
+<span class="sd">The module ``nnp.md`` provide tools to run molecular dynamics with a potential</span>
 <span class="sd">defined by PyTorch.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
-<span class="kn">import</span> <span class="nn">ase.calculators.calculator</span>
 <span class="kn">from</span> <span class="nn">nnp</span> <span class="k">import</span> <span class="n">pbc</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">import</span> <span class="nn">ase.calculators.calculator</span>
 
 
 <div class="viewcode-block" id="Calculator"><a class="viewcode-back" href="../../api.html#nnp.md.Calculator">[docs]</a><span class="k">class</span> <span class="nc">Calculator</span><span class="p">(</span><span class="n">ase</span><span class="o">.</span><span class="n">calculators</span><span class="o">.</span><span class="n">calculator</span><span class="o">.</span><span class="n">Calculator</span><span class="p">):</span>

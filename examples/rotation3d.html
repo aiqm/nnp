@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Rotation in 3D Space &mdash; NNP 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Use ASE to Simulate Planetary Motion" href="planetary_motion.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NNP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Introduction</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rotation in 3D Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">SO(3) Lie Group Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#molecular-dynamics">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#periodic-boundary-conditions">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#vibrational-analysis">Vibrational Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Implementation Walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code/so3.html">SO(3) Lie Group Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/md.html">Molecular Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/pbc.html">Periodic Boundary Conditions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/vib.html">Vibrational Analysis</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NNP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>Rotation in 3D Space</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/rotation3d.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-examples-rotation3d-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="rotation-in-3d-space">
+<span id="sphx-glr-examples-rotation3d-py"></span><h1>Rotation in 3D Space<a class="headerlink" href="#rotation-in-3d-space" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial demonstrates how rotate a group of points in 3D space.</p>
+<p>To begin with, we must understand that rotation is a linear transformation.
+The set of all rotations forms the group SO(3). It is a Lie group that each
+group element is described by an orthogonal 3x3 matrix.</p>
+<p>That is, if you have two points <span class="math notranslate nohighlight">\(\vec{r}_1\)</span> and <span class="math notranslate nohighlight">\(\vec{r}_2\)</span>, and
+you want to rotate the two points along the same axis for the same number of
+degrees, then there is a single orthogonal matrix <span class="math notranslate nohighlight">\(R\)</span> that no matter
+the value of <span class="math notranslate nohighlight">\(\vec{r}_1\)</span> and <span class="math notranslate nohighlight">\(\vec{r}_2\)</span>, their rotation is always
+<span class="math notranslate nohighlight">\(R\cdot\vec{r}_1\)</span> and <span class="math notranslate nohighlight">\(R\cdot\vec{r}_2\)</span>.</p>
+<p>Let’s import libraries first</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">nnp.so3</span> <span class="k">as</span> <span class="nn">so3</span>
+</pre></div>
+</div>
+<p>Let’s first take a look at a special case: rotating the three unit vectors
+<code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>, <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">1,</span> <span class="pre">0)</span></code> and <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">1)</span></code> along the diagonal for 120
+degree, this should permute these points:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rx</span></a> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.tensor" title="View documentation for torch.tensor"><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span></a><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">ry</span></a> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.tensor" title="View documentation for torch.tensor"><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rz</span></a> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.tensor" title="View documentation for torch.tensor"><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">points</span></a> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.stack" title="View documentation for torch.stack"><span class="n">torch</span><span class="o">.</span><span class="n">stack</span></a><span class="p">([</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rx</span></a><span class="p">,</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">ry</span></a><span class="p">,</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rz</span></a><span class="p">])</span>
+</pre></div>
+</div>
+<p>Now let’s compute the rotation matrix</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">axis</span></a> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.ones" title="View documentation for torch.ones"><span class="n">torch</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/math.html#math.sqrt" title="View documentation for math.sqrt"><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><a href="https://docs.python.org/3/library/math.html#math.pi" title="View documentation for math.pi"><span class="n">math</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">R</span></a> <span class="o">=</span> <span class="n">so3</span><span class="o">.</span><span class="n">rotate_along</span><span class="p">(</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">axis</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that we need to do matrix-vector product for all these unit vectors
+so we need to do a transpose in order to use <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rotated</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">R</span></a> <span class="o">@</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor.float" title="View documentation for torch.Tensor.float"><span class="n">points</span><span class="o">.</span><span class="n">float</span></a><span class="p">()</span><span class="o">.</span><span class="n">t</span><span class="p">())</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rotated</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([[0.0000e+00, 1.0000e+00, 3.5535e-09],
+        [0.0000e+00, 0.0000e+00, 1.0000e+00],
+        [1.0000e+00, 1.8456e-09, 1.8456e-09]])
+</pre></div>
+</div>
+<p>After this rotation, the three vector permutes: rx-&gt;ry, ry-&gt;rz, rz-&gt;rx. Let’s
+programmically check that. This check will be run by pytest later.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_rotated_unit_vectors</span><span class="p">():</span>
+    <span class="n">expected</span> <span class="o">=</span> <a href="https://pytorch.org/docs/master/torch.html#torch.stack" title="View documentation for torch.stack"><span class="n">torch</span><span class="o">.</span><span class="n">stack</span></a><span class="p">([</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">ry</span></a><span class="p">,</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rz</span></a><span class="p">,</span> <a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rx</span></a><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="k">assert</span> <a href="https://pytorch.org/docs/master/torch.html#torch.allclose" title="View documentation for torch.allclose"><span class="n">torch</span><span class="o">.</span><span class="n">allclose</span></a><span class="p">(</span><a href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="View documentation for torch.Tensor"><span class="n">rotated</span></a><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let’s run all the tests</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><a href="https://docs.python.org/3/library/sys.html#sys.argv" title="View documentation for sys.argv"><span class="n">sys</span><span class="o">.</span><span class="n">argv</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>============================= test session starts ==============================
+platform linux -- Python 3.7.5, pytest-5.2.4, py-1.8.0, pluggy-0.13.0
+rootdir: /home/runner/work/nnp/nnp, inifile: setup.cfg
+collected 1 item
+
+rotation3d.py .                                                          [100%]
+
+============================== 1 passed in 0.02s ===============================
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.670 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-rotation3d-py">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../_downloads/e9ecaf5aaa40e6a732cb5c16ec8ce140/rotation3d.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">rotation3d.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../_downloads/1c4a15f82a3b4cbac3d7d2679a7eec77/rotation3d.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">rotation3d.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="planetary_motion.html" class="btn btn-neutral float-right" title="Use ASE to Simulate Planetary Motion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xiang Gao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
