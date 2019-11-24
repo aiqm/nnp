@@ -125,7 +125,7 @@ Now let's run all the tests
 .. code-block:: default
 
     if __name__ == '__main__':
-        pytest.main([sys.argv[0]])
+        pytest.main([sys.argv[0], '-v'])
 
 
 
@@ -137,13 +137,14 @@ Now let's run all the tests
  .. code-block:: none
 
     ============================= test session starts ==============================
-    platform linux -- Python 3.7.5, pytest-5.2.4, py-1.8.0, pluggy-0.13.0
+    platform linux -- Python 3.7.5, pytest-5.3.0, py-1.8.0, pluggy-0.13.1 -- /opt/hostedtoolcache/Python/3.7.5/x64/bin/python
+    cachedir: .pytest_cache
     rootdir: /home/runner/work/nnp/nnp, inifile: setup.cfg
-    collected 1 item
+    collecting ... collected 1 item
 
-    rotation3d.py .                                                          [100%]
+    rotation3d.py::test_rotated_unit_vectors PASSED                          [100%]
 
-    ============================== 1 passed in 0.02s ===============================
+    ============================== 1 passed in 0.01s ===============================
 
 
 
@@ -151,7 +152,7 @@ Now let's run all the tests
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.670 seconds)
+   **Total running time of the script:** ( 0 minutes  0.699 seconds)
 
 
 .. _sphx_glr_download_examples_rotation3d.py:

@@ -69,7 +69,7 @@ This is the actually implementation. It is also self explained and export to doc
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Vibrational Analysis">
+    <div class="sphx-glr-thumbcontainer" tooltip="The module nnp.vib contains tools to compute analytical hessian and do vibrational analysis.">
 
 .. only:: html
 

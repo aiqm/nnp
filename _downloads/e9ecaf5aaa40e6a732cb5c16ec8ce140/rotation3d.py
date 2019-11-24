@@ -54,4 +54,4 @@ def test_rotated_unit_vectors():
 ###############################################################################
 # Now let's run all the tests
 if __name__ == '__main__':
-    pytest.main([sys.argv[0]])
+    pytest.main([sys.argv[0], '-v'])

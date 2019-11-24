@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SO(3) Lie Group Operations &mdash; NNP 0.0.3 documentation</title>
+  <title>SO(3) Lie Group Operations &mdash; NNP 0.0.4 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="code/index.html" />
-    <link rel="prev" title="Use ASE to Simulate Planetary Motion" href="examples/planetary_motion.html" /> 
+    <link rel="prev" title="Analytical Hessians and Vibrational Analysis" href="examples/vibration.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -94,6 +94,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/rotation3d.html">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/vibration.html">Analytical Hessians and Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul class="current">
@@ -314,12 +315,14 @@ of atoms in the ceter cell</p>
 </div>
 <span class="target" id="module-nnp.vib"></span><div class="section" id="vibrational-analysis">
 <h1>Vibrational Analysis<a class="headerlink" href="#vibrational-analysis" title="Permalink to this headline">¶</a></h1>
+<p>The module <code class="docutils literal notranslate"><span class="pre">nnp.vib</span></code> contains tools to compute analytical hessian
+and do vibrational analysis.</p>
 <dl class="class">
 <dt id="nnp.vib.FreqsModes">
-<em class="property">class </em><code class="descclassname">nnp.vib.</code><code class="descname">FreqsModes</code><span class="sig-paren">(</span><em>freqs</em>, <em>modes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nnp/vib.html#FreqsModes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.vib.FreqsModes" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nnp.vib.</code><code class="descname">FreqsModes</code><span class="sig-paren">(</span><em>angular_frequencies</em>, <em>modes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nnp/vib.html#FreqsModes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.vib.FreqsModes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="nnp.vib.FreqsModes.freqs">
-<em class="property">property </em><code class="descname">freqs</code><a class="headerlink" href="#nnp.vib.FreqsModes.freqs" title="Permalink to this definition">¶</a></dt>
+<dt id="nnp.vib.FreqsModes.angular_frequencies">
+<em class="property">property </em><code class="descname">angular_frequencies</code><a class="headerlink" href="#nnp.vib.FreqsModes.angular_frequencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
@@ -340,18 +343,17 @@ of atoms in the ceter cell</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coordinates</strong> – Tensor of shape <cite>(molecules, atoms, 3)</cite> or <code class="docutils literal notranslate"><span class="pre">(atoms,</span> <span class="pre">3)</span></code>.</li>
-<li><strong>energies</strong> – Tensor of shape <cite>(molecules,)</cite>, if specified, then <cite>forces</cite>
-must be <cite>None</cite>. This energies must be computed from <cite>coordinates</cite>
-in a graph.</li>
-<li><strong>forces</strong> – Tensor of shape <cite>(molecules, atoms, 3)</cite>, if specified,
-then <cite>energies</cite> must be <cite>None</cite>. This forces must be computed from
-<cite>coordinates</cite> in a graph.</li>
+<li><strong>coordinates</strong> – Tensor of shape <cite>(molecules, atoms, 3)</cite> or <cite>(atoms, 3)</cite></li>
+<li><strong>energies</strong> – Tensor of shape <cite>(molecules,)</cite>, or scalar, if specified,
+then <cite>forces</cite> must be <cite>None</cite>. This energies must be computed
+from <cite>coordinates</cite> in a graph.</li>
+<li><strong>forces</strong> – Tensor of shape <cite>(molecules, atoms, 3)</cite> or <cite>(atoms, 3)</cite>,
+if specified, then <cite>energies</cite> must be <cite>None</cite>. This forces must
+be computed from <cite>coordinates</cite> in a graph.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Tensor of shape <cite>(molecules, 3A, 3A)</cite> where A is the number of atoms in
-each molecule</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Tensor of shape <cite>(molecules, 3 * atoms, 3 * atoms)</cite> or <cite>(3 * atoms, 3 * atoms)</cite></p>
 </td>
 </tr>
 </tbody>
@@ -362,6 +364,30 @@ each molecule</p>
 <dt id="nnp.vib.vibrational_analysis">
 <code class="descclassname">nnp.vib.</code><code class="descname">vibrational_analysis</code><span class="sig-paren">(</span><em>masses: torch.Tensor</em>, <em>hessian: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; nnp.vib.FreqsModes<a class="reference internal" href="_modules/nnp/vib.html#vibrational_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nnp.vib.vibrational_analysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computing the vibrational wavenumbers from hessian.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>masses</strong> – Tensor of shape <cite>(molecules, atoms)</cite> or <cite>(atoms,)</cite>.</li>
+<li><strong>hessian</strong> – Tensor of shape <cite>(molecules, 3 * atoms, 3 * atoms)</cite> or
+<cite>(3 * atoms, 3 * atoms)</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>A namedtuple <cite>(angular_frequencies, modes)</cite> where</p>
+<dl class="docutils">
+<dt>angular_frequencies:</dt><dd><p>Tensor of shape <cite>(molecules, 3 * atoms)</cite> or <cite>(3 * atoms,)</cite></p>
+</dd>
+<dt>modes:</dt><dd><p>Tensor of shape <cite>(molecules, modes, atoms, 3)</cite> or <cite>(modes, atoms, 3)</cite>
+where <cite>modes = 3 * atoms</cite> is the number of normal modes.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -377,7 +403,7 @@ each molecule</p>
         <a href="code/index.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples/planetary_motion.html" class="btn btn-neutral float-left" title="Use ASE to Simulate Planetary Motion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples/vibration.html" class="btn btn-neutral float-left" title="Analytical Hessians and Vibrational Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

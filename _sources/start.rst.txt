@@ -14,12 +14,13 @@ To install NNP, just do
 
 
 TODO:
+
 - [x] so3
 - [x] test so3
+- [x] vib
+- [ ] test vib
 - [ ] pbc
 - [ ] test pbc
 - [ ] md
 - [x] test md: autograd
 - [ ] test md: stress
-- [ ] vib
-- [ ] test vib

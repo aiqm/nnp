@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rotation in 3D Space &mdash; NNP 0.0.3 documentation</title>
+  <title>Rotation in 3D Space &mdash; NNP 0.0.4 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -94,6 +94,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Rotation in 3D Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planetary_motion.html">Use ASE to Simulate Planetary Motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vibration.html">Analytical Hessians and Vibrational Analysis</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API</span></p>
 <ul>
@@ -232,21 +233,22 @@ programmically check that. This check will be run by pytest later.</p>
 </div>
 <p>Now let’s run all the tests</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><a href="https://docs.python.org/3/library/sys.html#sys.argv" title="View documentation for sys.argv"><span class="n">sys</span><span class="o">.</span><span class="n">argv</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><a href="https://docs.python.org/3/library/sys.html#sys.argv" title="View documentation for sys.argv"><span class="n">sys</span><span class="o">.</span><span class="n">argv</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;-v&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>============================= test session starts ==============================
-platform linux -- Python 3.7.5, pytest-5.2.4, py-1.8.0, pluggy-0.13.0
+platform linux -- Python 3.7.5, pytest-5.3.0, py-1.8.0, pluggy-0.13.1 -- /opt/hostedtoolcache/Python/3.7.5/x64/bin/python
+cachedir: .pytest_cache
 rootdir: /home/runner/work/nnp/nnp, inifile: setup.cfg
-collected 1 item
+collecting ... collected 1 item
 
-rotation3d.py .                                                          [100%]
+rotation3d.py::test_rotated_unit_vectors PASSED                          [100%]
 
-============================== 1 passed in 0.02s ===============================
+============================== 1 passed in 0.01s ===============================
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.670 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.699 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-rotation3d-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/e9ecaf5aaa40e6a732cb5c16ec8ce140/rotation3d.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">rotation3d.py</span></code></a></div>
