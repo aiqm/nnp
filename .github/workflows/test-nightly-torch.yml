@@ -1,0 +1,31 @@
+name: test-nightly-torch
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.6, 3.7]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Run tests
+      run: |
+        pip install --pre torch -f https://download.pytorch.org/whl/nightly/cpu/torch_nightly.html
+        pip install -r optional_requirements.txt
+        pip install .
+        pytest

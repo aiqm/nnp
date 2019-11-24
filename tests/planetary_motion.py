@@ -117,4 +117,4 @@ def test_is_circle():
 
 
 if __name__ == '__main__':
-    pytest.main([sys.argv[0]])
+    pytest.main([sys.argv[0], '-v'])
